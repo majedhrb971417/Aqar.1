@@ -39,8 +39,10 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
 .stat-card h3{color:var(--navy);font-size:1.8rem}
 .stat-card p{color:var(--muted);font-size:.85rem}
 .cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;padding-bottom:60px}
-.card{background:var(--card);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);transition:.25s;display:flex;flex-direction:column}
+.card{background:var(--card);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);transition:.25s;display:flex;flex-direction:column;position:relative}
 .card:hover{transform:translateY(-4px)}
+.card-code{position:absolute;top:12px;left:12px;background:rgba(11,30,61,.92);color:var(--gold);padding:5px 12px;border-radius:20px;font-size:.78rem;font-weight:900;letter-spacing:.5px;z-index:2;border:1.5px solid var(--gold)}
+.card-code .version{color:#fff;font-size:.7rem;margin-inline-start:4px;opacity:.85}
 .card-img{height:190px;background-size:cover;background-position:center;background-color:#dbe2ee;position:relative;cursor:pointer}
 .card-badge{position:absolute;top:12px;right:12px;padding:5px 12px;border-radius:20px;font-size:.75rem;font-weight:700}
 .badge-owner{background:var(--gold);color:var(--navy)}
@@ -58,10 +60,12 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
 .footer-inner{display:flex;justify-content:space-between;align-items:center;font-size:.85rem;gap:10px}
 .admin-secret{background:transparent;border:none;color:rgba(255,255,255,.15);font-size:14px;cursor:pointer;padding:4px 8px;transition:.3s}
 .admin-secret:hover{color:var(--gold)}
+.owner-secret{background:transparent;border:none;color:rgba(255,255,255,.1);font-size:12px;cursor:pointer;padding:4px 8px;transition:.3s;margin-inline-start:8px}
+.owner-secret:hover{color:#fff}
 .modal{position:fixed;inset:0;background:rgba(11,30,61,.7);display:flex;align-items:center;justify-content:center;z-index:200;padding:16px;backdrop-filter:blur(4px)}
 .modal-box{background:#fff;border-radius:18px;padding:26px;width:100%;max-width:440px;max-height:92vh;overflow-y:auto;position:relative;animation:fadeUp .25s ease}
 .modal-lg{max-width:640px}
-.modal-xl{max-width:900px}
+.modal-xl{max-width:1000px}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 .modal-close{position:absolute;top:12px;left:16px;background:transparent;border:none;font-size:26px;cursor:pointer;color:var(--muted)}
 .modal-box h2{color:var(--navy);margin-bottom:6px}
@@ -81,21 +85,29 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
 .admin-tab{background:transparent;border:none;padding:10px 18px;cursor:pointer;font-family:inherit;font-weight:700;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px}
 .admin-tab.active{color:var(--navy);border-bottom-color:var(--gold)}
 .admin-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
-.admin-table{width:100%;border-collapse:collapse;font-size:.9rem}
-.admin-table th,.admin-table td{padding:10px;border-bottom:1px solid var(--border);text-align:right}
-.admin-table th{background:var(--navy);color:#fff}
+.admin-table{width:100%;border-collapse:collapse;font-size:.85rem}
+.admin-table th,.admin-table td{padding:10px;border-bottom:1px solid var(--border);text-align:right;white-space:nowrap}
+.admin-table th{background:var(--navy);color:#fff;font-size:.8rem}
+.admin-table tr:hover{background:#f8fafc}
+.table-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}
+.code-cell{background:var(--navy);color:var(--gold);padding:3px 10px;border-radius:12px;font-weight:900;font-size:.78rem;display:inline-block}
+.code-cell .version{color:#fff;font-size:.7rem;margin-inline-start:3px;opacity:.85}
 .admin-list{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
 .admin-item{display:flex;justify-content:space-between;align-items:center;padding:12px;border:1px solid var(--border);border-radius:10px;background:#fafbfd;gap:10px;flex-wrap:wrap}
 .admin-item-info{flex:1;min-width:180px}
 .admin-item-info strong{color:var(--navy);display:block}
-.admin-actions{display:flex;gap:6px}
-.mini-btn{border:none;padding:6px 12px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:.8rem;font-weight:700}
+.admin-item-info small{color:var(--muted);font-size:.8rem}
+.admin-actions{display:flex;gap:6px;flex-wrap:wrap}
+.mini-btn{border:none;padding:6px 12px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:.78rem;font-weight:700;transition:.2s}
+.mini-btn:hover{opacity:.85}
 .mini-approve{background:#16a34a;color:#fff}
 .mini-delete{background:#dc2626;color:#fff}
+.mini-edit{background:var(--gold);color:var(--navy)}
+.mini-view{background:var(--navy);color:#fff}
 .districts-list{list-style:none;margin-top:10px}
 .districts-list li{padding:10px;background:#fafbfd;border-radius:8px;margin-bottom:6px;display:flex;justify-content:space-between;border-right:3px solid var(--gold)}
 
-/* ===== رفع الملفات ===== */
+/* رفع الملفات */
 .upload-block{background:#fafbfd;border:1.5px dashed var(--border);border-radius:12px;padding:14px;margin-bottom:10px}
 .upload-label{display:block;font-weight:700;color:var(--navy);margin-bottom:8px;font-size:.92rem}
 .file-input{width:100%;padding:8px;background:#fff;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:.85rem;cursor:pointer}
@@ -120,12 +132,16 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
 #imageViewer{position:fixed;inset:0;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;z-index:500;cursor:pointer}
 #imageViewer img,#imageViewer video{max-width:92vw;max-height:92vh;border-radius:12px}
 
+/* شارة إصدار الإعلان */
+.version-badge{display:inline-block;background:#fef3c7;color:#92400e;font-size:.7rem;padding:2px 8px;border-radius:10px;font-weight:700;margin-inline-start:6px}
+
 @media(max-width:768px){
   .hero h1{font-size:1.5rem}
   .nav{order:3;width:100%;justify-content:center}
   .header-actions{width:100%;justify-content:center}
   .form-grid{grid-template-columns:1fr}
   .footer-inner{flex-direction:column;text-align:center}
+  .admin-table th,.admin-table td{font-size:.75rem;padding:8px 6px}
 }
 </style>
 </head>
@@ -153,7 +169,7 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
     <h1>ابحث عن عقارك المثالي في <span class="gold">السعودية</span></h1>
     <p>منصة موثوقة تربطك بالمالكين والمسوقين المعتمدين مباشرة</p>
     <div class="search-bar">
-      <input type="text" id="searchInput" placeholder="ابحث بالمدينة أو الحي...">
+      <input type="text" id="searchInput" placeholder="ابحث بالكود، المدينة أو الحي...">
       <select id="filterType">
         <option value="">كل الأنواع</option>
         <option>شقة</option><option>فيلا</option><option>أرض</option>
@@ -179,7 +195,10 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
 <footer class="footer">
   <div class="container footer-inner">
     <p>© 2025 عقاري السعودية</p>
-    <button id="adminSecretBtn" class="admin-secret">⚙</button>
+    <div>
+      <button id="ownerSecretBtn" class="owner-secret" title="">★</button>
+      <button id="adminSecretBtn" class="admin-secret" title="">⚙</button>
+    </div>
   </div>
 </footer>
 
@@ -221,7 +240,7 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
       <label><input type="radio" name="role" value="broker"><span>مسوق / وسيط</span></label>
     </div>
     <div class="form-grid">
-      <input type="text" id="pTitle" placeholder="عنوان الإعلان">
+      <input type="text" id="pTitle" placeholder="عنوان الإعلان (وصف قصير)">
       <select id="pType">
         <option value="">نوع العقار</option>
         <option>شقة</option><option>فيلا</option><option>أرض</option>
@@ -247,12 +266,11 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
 
       <div class="full upload-block">
         <label class="upload-label">📍 موقع العقار على الخريطة</label>
-        <input type="text" id="pMapUrl" placeholder="الصق رابط Google Maps (مثال: https://www.google.com/maps?q=24.7136,46.6753)">
+        <input type="text" id="pMapUrl" placeholder="الصق رابط Google Maps">
         <div class="map-helper">
           <button type="button" class="btn-mini" id="btnGetLocation">📡 استخدم موقعي الحالي</button>
           <button type="button" class="btn-mini" id="btnOpenMaps">🗺️ افتح Google Maps</button>
         </div>
-        <small class="muted">افتح Google Maps → اختر الموقع → اضغط "مشاركة" → انسخ الرابط والصقه</small>
       </div>
 
       <div id="brokerFields" class="full hidden">
@@ -296,6 +314,17 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
   </div>
 </div>
 
+<!-- ===== دخول المالك (majed1997) ===== -->
+<div id="modalOwner" class="modal hidden">
+  <div class="modal-box">
+    <button class="modal-close" data-close>&times;</button>
+    <h2>دخول المالك ⭐</h2>
+    <input type="text" id="ownerUser" placeholder="اسم المستخدم">
+    <input type="password" id="ownerPass" placeholder="كلمة السر">
+    <button class="btn btn-gold w-full" id="btnOwnerLogin">دخول</button>
+  </div>
+</div>
+
 <!-- ===== لوحة المدير ===== -->
 <div id="adminDashboard" class="modal hidden">
   <div class="modal-box modal-xl">
@@ -303,7 +332,7 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
     <h2>لوحة تحكم المدير — <span class="gold">ماجد</span></h2>
     <div class="admin-tabs">
       <button class="admin-tab active" data-atab="stats">الإحصائيات</button>
-      <button class="admin-tab" data-atab="leads">العملاء (Leads)</button>
+      <button class="admin-tab" data-atab="leads">العملاء</button>
       <button class="admin-tab" data-atab="manage">إدارة الإعلانات</button>
     </div>
     <div id="atab-stats" class="atab-panel">
@@ -317,16 +346,83 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
       <ul id="topDistricts" class="districts-list"></ul>
     </div>
     <div id="atab-leads" class="atab-panel hidden">
-      <table class="admin-table">
-        <thead><tr><th>الاسم</th><th>الجوال</th><th>النوع</th><th>التاريخ</th></tr></thead>
-        <tbody id="leadsBody"></tbody>
-      </table>
+      <div class="table-wrap">
+        <table class="admin-table">
+          <thead><tr><th>الاسم</th><th>الجوال</th><th>النوع</th><th>التاريخ</th></tr></thead>
+          <tbody id="leadsBody"></tbody>
+        </table>
+      </div>
     </div>
     <div id="atab-manage" class="atab-panel hidden">
       <h3>العروض العقارية</h3>
       <div id="adminOffers" class="admin-list"></div>
       <h3>طلبات العقار</h3>
       <div id="adminRequests" class="admin-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== لوحة المالك (majed1997) ===== -->
+<div id="ownerDashboard" class="modal hidden">
+  <div class="modal-box modal-xl">
+    <button class="modal-close" data-close>&times;</button>
+    <h2>لوحة المالك ⭐ — <span class="gold">majed1997</span></h2>
+    <div class="admin-tabs">
+      <button class="owner-tab active" data-otab="offers">📢 كل العروض</button>
+      <button class="owner-tab" data-otab="requests">🙋 كل الطلبات</button>
+      <button class="owner-tab" data-otab="users">👥 المستخدمون</button>
+      <button class="owner-tab" data-otab="stats">📊 ملخص</button>
+    </div>
+
+    <div id="otab-offers" class="otab-panel">
+      <p class="muted" style="margin-bottom:10px">جميع إعلانات العقارات مع الكود والمعلن</p>
+      <div class="table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>الكود</th><th>العنوان</th><th>النوع</th><th>المدينة</th>
+              <th>السعر</th><th>المعلن</th><th>الجوال</th><th>النوع</th><th>إجراء</th>
+            </tr>
+          </thead>
+          <tbody id="ownerOffersBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="otab-requests" class="otab-panel hidden">
+      <p class="muted" style="margin-bottom:10px">جميع طلبات العقار من المشترين</p>
+      <div class="table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>الكود</th><th>العنوان</th><th>النوع</th><th>المدينة</th>
+              <th>الميزانية</th><th>الطالب</th><th>الجوال</th><th>إجراء</th>
+            </tr>
+          </thead>
+          <tbody id="ownerRequestsBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="otab-users" class="otab-panel hidden">
+      <p class="muted" style="margin-bottom:10px">جميع المستخدمين المسجلين</p>
+      <div class="table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr><th>#</th><th>الاسم</th><th>الجوال</th><th>تاريخ التسجيل</th></tr>
+          </thead>
+          <tbody id="ownerUsersBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="otab-stats" class="otab-panel hidden">
+      <div class="admin-stats">
+        <div class="stat-card"><h3 id="ownOffers">0</h3><p>إجمالي العروض</p></div>
+        <div class="stat-card"><h3 id="ownRequests">0</h3><p>إجمالي الطلبات</p></div>
+        <div class="stat-card"><h3 id="ownUsers">0</h3><p>المستخدمون</p></div>
+        <div class="stat-card"><h3 id="ownVisitors">0</h3><p>عدد الزوار</p></div>
+      </div>
     </div>
   </div>
 </div>
@@ -344,11 +440,13 @@ var DB = {
   requests:   're_requests',
   leads:      're_leads',
   stats:      're_stats',
-  session:    're_session'
+  session:    're_session',
+  counters:   're_counters'
 };
-var ADMIN = { user: 'Majed1000', pass: '14171000' };
 
-/* ========== المدن السعودية ========== */
+var ADMIN    = { user: 'Majed1000',  pass: '14171000'  };
+var OWNER    = { user: 'majed1997',  pass: '14171000*' };
+
 var SAUDI_CITIES = [
   'الرياض','جدة','مكة المكرمة','المدينة المنورة','الدمام','الخبر','الظهران','الأحساء','الطائف','تبوك',
   'بريدة','عنيزة','حائل','نجران','أبها','خميس مشيط','جيزان','القطيف','ينبع','الجبيل',
@@ -357,11 +455,24 @@ var SAUDI_CITIES = [
   'ضباء','الوجه','أملج','العلا','بدر','خيبر','الحناكية','المهد','الحائط','الشنان'
 ];
 
-/* ========== الحالة ========== */
 var currentUser = get(DB.session, null);
 var currentTab = 'all';
 var currentImages = [];
 var currentVideo = { url: '', dataUrl: '' };
+var editingId = null;
+
+/* ========== نظام الترقيم ========== */
+function getCounters(){
+  return get(DB.counters, { A: 1000, R: 2000 });
+}
+function saveCounters(c){
+  set(DB.counters, c);
+}
+function generateCode(type){
+  var c = getCounters();
+  if(type === 'A'){ c.A += 1; saveCounters(c); return 'A-' + c.A; }
+  else { c.R += 1; saveCounters(c); return 'R-' + c.R; }
+}
 
 /* ========== إحصائيات الزوار ========== */
 (function(){
@@ -371,7 +482,7 @@ var currentVideo = { url: '', dataUrl: '' };
   set(DB.stats, s);
 })();
 
-/* ========== تعبئة المدن ========== */
+/* ========== المدن ========== */
 function fillCities(){
   var options = SAUDI_CITIES.map(function(c){ return '<option>' + c + '</option>'; }).join('');
   ['#pCity','#rCity'].forEach(function(sel){
@@ -394,7 +505,7 @@ document.addEventListener('click', function(e){
   }
 });
 
-/* ========== أزرار التبديل بين الدخول والتسجيل ========== */
+/* ========== تسجيل جديد ========== */
 function showRegister(){
   closeAllModals();
   ['#regName','#regPhone','#regPass','#regPass2'].forEach(function(s){ $(s).value = ''; });
@@ -408,21 +519,19 @@ function showLogin(){
 document.getElementById('goToLogin').addEventListener('click', showLogin);
 document.getElementById('goToRegister').addEventListener('click', showRegister);
 
-/* ========== تسجيل جديد ========== */
 document.getElementById('btnRegister').addEventListener('click', function(){
   var name = $('#regName').value.trim();
   var phone = $('#regPhone').value.trim();
   var pass = $('#regPass').value;
   var pass2 = $('#regPass2').value;
 
-  if(name.length < 3) return alert('الرجاء إدخال الاسم الكامل (3 أحرف على الأقل)');
+  if(name.length < 3) return alert('الرجاء إدخال الاسم الكامل');
   if(!/^05\d{8}$/.test(phone)) return alert('رقم الجوال يجب أن يبدأ بـ 05 ويكون 10 أرقام');
-  if(pass.length < 4) return alert('كلمة السر يجب أن تكون 4 أحرف على الأقل');
+  if(pass.length < 4) return alert('كلمة السر 4 أحرف على الأقل');
   if(pass !== pass2) return alert('كلمتا السر غير متطابقتين');
 
   var users = get(DB.users, []);
-  var exists = users.some(function(u){ return u.phone === phone; });
-  if(exists) return alert('هذا الرقم مسجل مسبقاً، سجل دخولك');
+  if(users.some(function(u){ return u.phone === phone; })) return alert('هذا الرقم مسجل مسبقاً');
 
   users.push({ name: name, phone: phone, pass: pass, at: Date.now() });
   set(DB.users, users);
@@ -436,7 +545,7 @@ document.getElementById('btnRegister').addEventListener('click', function(){
 
   updateUserBadge();
   closeAllModals();
-  alert('تم إنشاء الحساب بنجاح ✅\nأهلاً بك ' + name);
+  alert('تم إنشاء الحساب ✅\nأهلاً بك ' + name);
 });
 
 /* ========== تسجيل دخول ========== */
@@ -452,7 +561,6 @@ document.getElementById('btnLogin').addEventListener('click', function(){
 
   currentUser = { name: user.name, phone: user.phone, at: Date.now() };
   set(DB.session, currentUser);
-
   updateUserBadge();
   closeAllModals();
   alert('أهلاً بعودتك ' + user.name + ' ✅');
@@ -477,16 +585,17 @@ function updateUserBadge(){
   }
 }
 
-/* ========== التحقق من الدخول ========== */
 function requireLogin(){
   if(currentUser) return true;
   showLogin();
   return false;
 }
 
-/* ========== الأزرار الرئيسية ========== */
+/* ========== أزرار رئيسية ========== */
 document.getElementById('btnAddProperty').addEventListener('click', function(){
   if(!requireLogin()) return;
+  editingId = null;
+  resetPropertyForm();
   openModal('#modalProperty');
 });
 document.getElementById('btnAddRequest').addEventListener('click', function(){
@@ -523,7 +632,6 @@ function compressImage(file, maxW, quality){
   });
 }
 
-/* ========== معاينة الصور ========== */
 document.getElementById('pImages').addEventListener('change', function(e){
   var files = Array.from(e.target.files);
   if(currentImages.length + files.length > 6){
@@ -555,7 +663,7 @@ document.getElementById('pVideoFile').addEventListener('change', function(e){
   var f = e.target.files[0];
   if(!f) return;
   if(f.size > 3 * 1024 * 1024){
-    alert('الفيديو كبير جداً (الحد 3 ميجا). استخدم رابط YouTube بدلاً منه');
+    alert('الفيديو كبير (الحد 3 ميجا). استخدم رابط YouTube');
     e.target.value = '';
     return;
   }
@@ -566,21 +674,17 @@ document.getElementById('pVideoFile').addEventListener('change', function(e){
   };
   reader.readAsDataURL(f);
 });
-
 document.getElementById('pVideoUrl').addEventListener('input', function(e){
   currentVideo.url = e.target.value.trim();
   renderVideoPreview();
 });
-
 function renderVideoPreview(){
   var box = document.getElementById('videoPreview');
   if(currentVideo.dataUrl){
     box.innerHTML = '<video src="' + currentVideo.dataUrl + '" controls></video>';
   } else if(currentVideo.url){
     box.innerHTML = '<small class="muted">✓ رابط الفيديو: ' + currentVideo.url + '</small>';
-  } else {
-    box.innerHTML = '';
-  }
+  } else box.innerHTML = '';
 }
 
 /* ========== الخريطة ========== */
@@ -590,24 +694,33 @@ document.getElementById('btnGetLocation').addEventListener('click', function(){
     var lat = pos.coords.latitude.toFixed(6);
     var lng = pos.coords.longitude.toFixed(6);
     $('#pMapUrl').value = 'https://www.google.com/maps?q=' + lat + ',' + lng;
-    alert('تم تحديد موقعك ✓\n' + lat + ' , ' + lng);
-  }, function(){
-    alert('تعذر الحصول على موقعك، تأكد من السماح بالوصول للموقع');
-  });
+    alert('تم تحديد موقعك ✓');
+  }, function(){ alert('تعذر الحصول على موقعك'); });
 });
-
 document.getElementById('btnOpenMaps').addEventListener('click', function(){
   var url = $('#pMapUrl').value.trim();
   window.open(url || 'https://www.google.com/maps', '_blank');
 });
 
+/* ========== إعادة تعيين نموذج العقار ========== */
+function resetPropertyForm(){
+  ['#pTitle','#pType','#pPrice','#pCity','#pDistrict','#pDeed','#pImages','#pVideoUrl','#pVideoFile','#pMapUrl','#pFalLicense','#pAdLicense','#pDesc'].forEach(function(s){ var el=$(s); if(el) el.value=''; });
+  currentImages = [];
+  currentVideo = { url: '', dataUrl: '' };
+  $('#imagesPreview').innerHTML = '';
+  $('#videoPreview').innerHTML = '';
+  document.querySelector('input[name="role"][value="owner"]').checked = true;
+  $('#brokerFields').classList.add('hidden');
+}
+
 /* ========== حفظ العقار ========== */
 document.getElementById('btnSaveProperty').addEventListener('click', function(){
   if(!currentUser) return alert('سجل دخولك أولاً');
   var role = document.querySelector('input[name="role"]:checked').value;
+  var isEdit = editingId !== null;
 
   var data = {
-    id: Date.now(),
+    id: isEdit ? editingId : Date.now(),
     role: role,
     title: $('#pTitle').value.trim(),
     type: $('#pType').value,
@@ -630,39 +743,47 @@ document.getElementById('btnSaveProperty').addEventListener('click', function(){
   if(role === 'broker'){
     data.falLicense = $('#pFalLicense').value.trim();
     data.adLicense  = $('#pAdLicense').value.trim();
-    if(!data.falLicense || !data.adLicense) return alert('يجب إدخال رخصة فال ورقم ترخيص الإعلان');
+    if(!data.falLicense || !data.adLicense) return alert('أدخل رخصة فال ورقم ترخيص الإعلان');
   }
   if(!data.title || !data.type || !data.price || !data.city || !data.district){
-    return alert('الرجاء إكمال الحقول الأساسية');
+    return alert('أكمل الحقول الأساسية');
   }
 
   var p = get(DB.properties, []);
-  p.unshift(data);
-  try { set(DB.properties, p); }
-  catch(e){
-    alert('⚠️ الملفات كبيرة على التخزين\nجرب صور أقل أو رابط فيديو بدل الرفع');
-    return;
+
+  if(isEdit){
+    /* تعديل: نقل الإصدار */
+    var idx = p.findIndex(function(x){ return x.id === editingId; });
+    if(idx > -1){
+      data.code = p[idx].code;
+      data.version = (p[idx].version || 1) + 1;
+      p[idx] = data;
+      alert('تم التعديل ✅\nالكود: ' + data.code + '\nالإصدار الجديد: v' + data.version);
+    }
+    editingId = null;
+  } else {
+    /* جديد: توليد كود */
+    data.code = generateCode('A');
+    data.version = 1;
+    p.unshift(data);
+    alert('تم نشر الإعلان ✅\n📌 كود إعلانك: ' + data.code + ' (v1)\nاحفظه للرجوع إليه');
   }
+
+  try { set(DB.properties, p); }
+  catch(e){ alert('⚠️ الملفات كبيرة على التخزين'); return; }
 
   var leads = get(DB.leads, []);
   leads.push({
     name: currentUser.name, phone: currentUser.phone,
-    type: role === 'owner' ? 'أضاف عرض (مالك)' : 'أضاف عرض (مسوق)',
+    type: isEdit ? 'عدّل عرض (' + data.code + ')' : 'أضاف عرض (' + data.code + ') - ' + (role==='owner'?'مالك':'مسوق'),
     date: new Date().toISOString()
   });
   set(DB.leads, leads);
 
-  /* إعادة تعيين النموذج */
-  currentImages = [];
-  currentVideo = { url: '', dataUrl: '' };
-  ['#pTitle','#pType','#pPrice','#pCity','#pDistrict','#pDeed','#pImages','#pVideoUrl','#pVideoFile','#pMapUrl','#pFalLicense','#pAdLicense','#pDesc'].forEach(function(s){ var el=$(s); if(el) el.value=''; });
-  $('#imagesPreview').innerHTML = '';
-  $('#videoPreview').innerHTML = '';
-
+  resetPropertyForm();
   closeAllModals();
   renderCards();
   updateStats();
-  alert('تم نشر الإعلان بنجاح ✅');
 });
 
 /* ========== حفظ طلب العقار ========== */
@@ -680,22 +801,25 @@ document.getElementById('btnSaveRequest').addEventListener('click', function(){
     requesterPhone: currentUser.phone,
     date: new Date().toISOString()
   };
-  if(!data.title || !data.city || !data.type) return alert('الرجاء إكمال الحقول الأساسية');
+  if(!data.title || !data.city || !data.type) return alert('أكمل الحقول الأساسية');
+
+  data.code = generateCode('R');
+  data.version = 1;
 
   var r = get(DB.requests, []);
   r.unshift(data);
   set(DB.requests, r);
 
   var leads = get(DB.leads, []);
-  leads.push({ name: currentUser.name, phone: currentUser.phone, type: 'أضاف طلب عقار', date: new Date().toISOString() });
+  leads.push({ name: currentUser.name, phone: currentUser.phone, type: 'أضاف طلب (' + data.code + ')', date: new Date().toISOString() });
   set(DB.leads, leads);
 
-  ['#rTitle','#rType','#rCity','#rDistrict','#rBudget','#rDesc'].forEach(function(s){ $(s).value=''; });
+  alert('تم إرسال طلبك ✅\n📌 كود طلبك: ' + data.code);
 
+  ['#rTitle','#rType','#rCity','#rDistrict','#rBudget','#rDesc'].forEach(function(s){ $(s).value=''; });
   closeAllModals();
   renderCards();
   updateStats();
-  alert('تم إرسال طلبك ✅');
 });
 
 /* ========== عرض البطاقات ========== */
@@ -719,7 +843,8 @@ function renderCards(){
     items = items.filter(function(i){
       return (i.city||'').toLowerCase().indexOf(q) > -1 ||
              (i.district||'').toLowerCase().indexOf(q) > -1 ||
-             (i.title||'').toLowerCase().indexOf(q) > -1;
+             (i.title||'').toLowerCase().indexOf(q) > -1 ||
+             (i.code||'').toLowerCase().indexOf(q) > -1;
     });
   }
   if(ft) items = items.filter(function(i){ return i.type === ft; });
@@ -733,8 +858,11 @@ function renderCards(){
 
   var html = '';
   items.forEach(function(i){
+    var codeHtml = '<div class="card-code">' + i.code + '<span class="version">v' + (i.version||1) + '</span></div>';
+
     if(i._kind === 'request'){
       html += '<div class="card">' +
+        codeHtml +
         '<div class="card-img" style="background:linear-gradient(135deg,#16a34a,#0b1e3d);">' +
         '<span class="card-badge badge-request">طلب عقار</span></div>' +
         '<div class="card-body">' +
@@ -751,7 +879,6 @@ function renderCards(){
 
       var images = (i.images && i.images.length) ? i.images : (i.image ? [i.image] : []);
       var mainImg = images[0] || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800';
-      var imgHtml = '<div class="card-img" style="background-image:url(\'' + mainImg + '\')" data-card-img="' + i.id + '">' + badge + '</div>';
 
       var galleryHtml = '';
       if(images.length > 1){
@@ -762,11 +889,13 @@ function renderCards(){
       }
 
       var extraBtns = '';
-      if(i.mapUrl) extraBtns += '<button class="card-btn card-btn-map" data-map="' + i.mapUrl + '" title="عرض على الخريطة">🗺️</button>';
-      if(i.videoUrl || i.videoData) extraBtns += '<button class="card-btn card-btn-video" data-video="' + (i.videoUrl || i.videoData) + '" title="مشاهدة الفيديو">🎬</button>';
+      if(i.mapUrl) extraBtns += '<button class="card-btn card-btn-map" data-map="' + i.mapUrl + '">🗺️</button>';
+      if(i.videoUrl || i.videoData) extraBtns += '<button class="card-btn card-btn-video" data-video="' + (i.videoUrl || i.videoData) + '">🎬</button>';
 
       html += '<div class="card">' +
-        imgHtml + galleryHtml +
+        codeHtml +
+        '<div class="card-img" style="background-image:url(\'' + mainImg + '\')" data-card-img="' + i.id + '">' + badge + '</div>' +
+        galleryHtml +
         '<div class="card-body">' +
         '<div class="card-title">' + i.title + '</div>' +
         '<div class="card-loc">📍 ' + i.city + ' - ' + i.district + ' • ' + i.type + '</div>' +
@@ -780,7 +909,6 @@ function renderCards(){
   });
   grid.innerHTML = html;
 
-  /* ربط الأزرار */
   grid.querySelectorAll('.card-btn[data-phone]').forEach(function(btn){
     btn.addEventListener('click', function(){
       alert('📞 ' + btn.dataset.name + '\n' + btn.dataset.phone);
@@ -818,7 +946,6 @@ function renderCards(){
   });
 }
 
-/* ========== عارض الصور ========== */
 function openImageViewer(src){
   var v = document.createElement('div');
   v.id = 'imageViewer';
@@ -826,8 +953,6 @@ function openImageViewer(src){
   v.addEventListener('click', function(){ v.remove(); });
   document.body.appendChild(v);
 }
-
-/* ========== عارض الفيديو ========== */
 function openVideoViewer(src){
   var v = document.createElement('div');
   v.id = 'imageViewer';
@@ -836,7 +961,6 @@ function openVideoViewer(src){
   document.body.appendChild(v);
 }
 
-/* ========== إحصائيات الصفحة ========== */
 function updateStats(){
   var p = get(DB.properties, []).filter(function(x){ return x.approved !== false; });
   var r = get(DB.requests, []);
@@ -846,7 +970,6 @@ function updateStats(){
   $('#statBrokers').textContent  = p.filter(function(x){ return x.role === 'broker'; }).length;
 }
 
-/* ========== التبويبات ========== */
 $$('.nav-btn').forEach(function(b){
   b.addEventListener('click', function(){
     $$('.nav-btn').forEach(function(x){ x.classList.remove('active'); });
@@ -856,7 +979,6 @@ $$('.nav-btn').forEach(function(b){
   });
 });
 
-/* ========== البحث ========== */
 document.getElementById('btnSearch').addEventListener('click', function(){
   var term = $('#searchInput').value;
   var s = get(DB.stats, { visitors: 1, searches: 0, districts: {} });
@@ -869,20 +991,16 @@ document.getElementById('searchInput').addEventListener('keypress', function(e){
   if(e.key === 'Enter') document.getElementById('btnSearch').click();
 });
 
-/* ========== المدير ========== */
-document.getElementById('adminSecretBtn').addEventListener('click', function(){
-  openModal('#modalAdmin');
-});
+/* =========================================================
+   المدير
+   ========================================================= */
+document.getElementById('adminSecretBtn').addEventListener('click', function(){ openModal('#modalAdmin'); });
 document.getElementById('btnAdminLogin').addEventListener('click', function(){
-  var u = $('#adminUser').value.trim();
-  var p = $('#adminPass').value.trim();
-  if(u === ADMIN.user && p === ADMIN.pass){
+  if($('#adminUser').value.trim() === ADMIN.user && $('#adminPass').value.trim() === ADMIN.pass){
     closeModal('#modalAdmin');
     openModal('#adminDashboard');
     renderAdmin();
-  } else {
-    alert('بيانات الدخول غير صحيحة');
-  }
+  } else alert('بيانات غير صحيحة');
 });
 
 $$('.admin-tab').forEach(function(t){
@@ -918,22 +1036,23 @@ function renderAdmin(){
         var d = new Date(l.date).toLocaleDateString('ar-SA');
         return '<tr><td>' + l.name + '</td><td>' + l.phone + '</td><td>' + l.type + '</td><td>' + d + '</td></tr>';
       }).join('')
-    : '<tr><td colspan="4" style="text-align:center;color:#6b7590">لا يوجد عملاء بعد</td></tr>';
+    : '<tr><td colspan="4" style="text-align:center;color:#6b7590">لا يوجد عملاء</td></tr>';
 
   $('#adminOffers').innerHTML = props.length
     ? props.map(function(p){
         return '<div class="admin-item">' +
-          '<div class="admin-item-info"><strong>' + p.title + '</strong>' +
+          '<div class="admin-item-info"><strong><span class="code-cell">' + p.code + '<span class="version">v' + (p.version||1) + '</span></span> ' + p.title + '</strong>' +
           '<small>' + p.city + ' - ' + p.district + ' • ' + Number(p.price).toLocaleString() + ' ريال • ' + (p.role==='owner'?'مالك':'مسوق') + '</small></div>' +
-          '<div class="admin-actions"><button class="mini-btn mini-delete" data-del-prop="' + p.id + '">حذف</button></div>' +
-          '</div>';
+          '<div class="admin-actions">' +
+          '<button class="mini-btn mini-delete" data-del-prop="' + p.id + '">حذف</button>' +
+          '</div></div>';
       }).join('')
     : '<p class="muted">لا توجد عروض</p>';
 
   $('#adminRequests').innerHTML = reqs.length
     ? reqs.map(function(r){
         return '<div class="admin-item">' +
-          '<div class="admin-item-info"><strong>' + r.title + '</strong>' +
+          '<div class="admin-item-info"><strong><span class="code-cell">' + r.code + '<span class="version">v' + (r.version||1) + '</span></span> ' + r.title + '</strong>' +
           '<small>' + r.city + ' - ' + (r.district||'—') + ' • ' + (r.requesterName||'') + ' • ' + r.requesterPhone + '</small></div>' +
           '<div class="admin-actions"><button class="mini-btn mini-delete" data-del-req="' + r.id + '">حذف</button></div>' +
           '</div>';
@@ -958,12 +1077,108 @@ function renderAdmin(){
   });
 }
 
+/* =========================================================
+   لوحة المالك (majed1997)
+   ========================================================= */
+document.getElementById('ownerSecretBtn').addEventListener('click', function(){ openModal('#modalOwner'); });
+document.getElementById('btnOwnerLogin').addEventListener('click', function(){
+  if($('#ownerUser').value.trim() === OWNER.user && $('#ownerPass').value.trim() === OWNER.pass){
+    closeModal('#modalOwner');
+    openModal('#ownerDashboard');
+    renderOwner();
+  } else alert('بيانات غير صحيحة');
+});
+
+$$('.owner-tab').forEach(function(t){
+  t.addEventListener('click', function(){
+    $$('.owner-tab').forEach(function(x){ x.classList.remove('active'); });
+    t.classList.add('active');
+    $$('.otab-panel').forEach(function(p){ p.classList.add('hidden'); });
+    var target = document.getElementById('otab-' + t.dataset.otab);
+    if(target) target.classList.remove('hidden');
+  });
+});
+
+function renderOwner(){
+  var props = get(DB.properties, []);
+  var reqs  = get(DB.requests, []);
+  var users = get(DB.users, []);
+  var s     = get(DB.stats, { visitors: 0 });
+
+  /* العروض */
+  $('#ownerOffersBody').innerHTML = props.length
+    ? props.map(function(p){
+        return '<tr>' +
+          '<td><span class="code-cell">' + p.code + '<span class="version">v' + (p.version||1) + '</span></span></td>' +
+          '<td>' + p.title + '</td>' +
+          '<td>' + p.type + '</td>' +
+          '<td>' + p.city + '</td>' +
+          '<td>' + Number(p.price).toLocaleString() + ' ر</td>' +
+          '<td>' + p.ownerName + '</td>' +
+          '<td>' + p.ownerPhone + '</td>' +
+          '<td>' + (p.role==='owner'?'مالك':'مسوق') + '</td>' +
+          '<td><button class="mini-btn mini-delete" data-own-del-p="' + p.id + '">حذف</button></td>' +
+          '</tr>';
+      }).join('')
+    : '<tr><td colspan="9" style="text-align:center;color:#6b7590">لا يوجد</td></tr>';
+
+  /* الطلبات */
+  $('#ownerRequestsBody').innerHTML = reqs.length
+    ? reqs.map(function(r){
+        return '<tr>' +
+          '<td><span class="code-cell">' + r.code + '<span class="version">v' + (r.version||1) + '</span></span></td>' +
+          '<td>' + r.title + '</td>' +
+          '<td>' + r.type + '</td>' +
+          '<td>' + r.city + '</td>' +
+          '<td>' + (r.budget ? Number(r.budget).toLocaleString() + ' ر' : '—') + '</td>' +
+          '<td>' + r.requesterName + '</td>' +
+          '<td>' + r.requesterPhone + '</td>' +
+          '<td><button class="mini-btn mini-delete" data-own-del-r="' + r.id + '">حذف</button></td>' +
+          '</tr>';
+      }).join('')
+    : '<tr><td colspan="8" style="text-align:center;color:#6b7590">لا يوجد</td></tr>';
+
+  /* المستخدمون */
+  $('#ownerUsersBody').innerHTML = users.length
+    ? users.map(function(u, i){
+        var d = new Date(u.at).toLocaleDateString('ar-SA');
+        return '<tr><td>' + (i+1) + '</td><td>' + u.name + '</td><td>' + u.phone + '</td><td>' + d + '</td></tr>';
+      }).join('')
+    : '<tr><td colspan="4" style="text-align:center;color:#6b7590">لا يوجد</td></tr>';
+
+  /* الملخص */
+  $('#ownOffers').textContent   = props.length;
+  $('#ownRequests').textContent = reqs.length;
+  $('#ownUsers').textContent    = users.length;
+  $('#ownVisitors').textContent = s.visitors || 0;
+
+  /* حذف */
+  $$('#ownerOffersBody [data-own-del-p]').forEach(function(b){
+    b.addEventListener('click', function(){
+      if(!confirm('حذف هذا العرض؟')) return;
+      var id = Number(b.dataset.ownDelP);
+      set(DB.properties, get(DB.properties, []).filter(function(x){ return x.id !== id; }));
+      renderOwner(); renderCards(); updateStats();
+    });
+  });
+  $$('#ownerRequestsBody [data-own-del-r]').forEach(function(b){
+    b.addEventListener('click', function(){
+      if(!confirm('حذف هذا الطلب؟')) return;
+      var id = Number(b.dataset.ownDelR);
+      set(DB.requests, get(DB.requests, []).filter(function(x){ return x.id !== id; }));
+      renderOwner(); renderCards(); updateStats();
+    });
+  });
+}
+
 /* ========== التشغيل ========== */
 fillCities();
 updateUserBadge();
 renderCards();
 updateStats();
-console.log('✅ المنصة جاهزة — ' + SAUDI_CITIES.length + ' مدينة');
+console.log('✅ المنصة جاهزة');
+console.log('👑 المدير: Majed1000 / 14171000');
+console.log('⭐ المالك: majed1997 / 14171000*');
 </script>
 </body>
 </html>

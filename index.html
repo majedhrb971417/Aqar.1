@@ -22,12 +22,13 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
 .nav-btn:hover{background:var(--navy2);color:#fff}
 .nav-btn.active{background:var(--gold);color:var(--navy);font-weight:700}
 .header-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.user-badge{background:var(--gold);color:var(--navy);padding:6px 12px;border-radius:20px;font-weight:700;font-size:.85rem}
+.user-badge{background:var(--gold);color:var(--navy);padding:6px 12px;border-radius:20px;font-weight:700;font-size:.85rem;cursor:pointer}
 .btn{font-family:inherit;cursor:pointer;border:none;padding:10px 18px;border-radius:10px;font-weight:700;font-size:.9rem;transition:.2s}
 .btn-gold{background:var(--gold);color:var(--navy)}
 .btn-gold:hover{background:var(--gold2);transform:translateY(-1px)}
 .btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.35)}
 .btn-outline:hover{background:rgba(255,255,255,.1)}
+.btn-link{background:transparent;border:none;color:var(--gold);cursor:pointer;font-family:inherit;font-weight:700;text-decoration:underline;font-size:.9rem;padding:6px}
 .hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);color:#fff;padding:60px 0 70px;text-align:center}
 .hero h1{font-size:2.2rem;margin-bottom:10px}
 .hero p{color:#cbd5e1;margin-bottom:26px}
@@ -68,6 +69,7 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
 .modal-box input,.modal-box select,.modal-box textarea{width:100%;padding:12px;margin-bottom:10px;border:1.5px solid var(--border);border-radius:10px;font-family:inherit;font-size:.95rem;outline:none;transition:.2s}
 .modal-box input:focus,.modal-box select:focus,.modal-box textarea:focus{border-color:var(--gold)}
 .modal-box textarea{min-height:90px;resize:vertical}
+.auth-switch{text-align:center;margin-top:10px;padding-top:14px;border-top:1px solid var(--border);font-size:.9rem;color:var(--muted)}
 .role-toggle{display:flex;gap:10px;margin-bottom:16px}
 .role-toggle label{flex:1;cursor:pointer;border:2px solid var(--border);border-radius:10px;padding:12px;text-align:center;font-weight:700;transition:.2s}
 .role-toggle input{display:none}
@@ -155,26 +157,41 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
   </div>
 </footer>
 
-<!-- نافذة تسجيل الدخول OTP -->
-<div id="modalLogin" class="modal hidden">
+<!-- ===== نافذة تسجيل جديد ===== -->
+<div id="modalRegister" class="modal hidden">
   <div class="modal-box">
     <button class="modal-close" data-close>&times;</button>
-    <h2>تسجيل سريع</h2>
-    <p class="muted">أدخل بياناتك للتواصل معك</p>
-    <div id="loginStep1">
-      <input type="text" id="loginName" placeholder="الاسم الكامل">
-      <input type="tel" id="loginPhone" placeholder="رقم الجوال (05xxxxxxxx)" maxlength="10">
-      <button class="btn btn-gold w-full" id="btnSendOtp">إرسال كود التفعيل</button>
-    </div>
-    <div id="loginStep2" class="hidden">
-      <p class="muted">تم الإرسال (الكود الافتراضي: <b>1234</b>)</p>
-      <input type="text" id="otpInput" placeholder="أدخل الكود" maxlength="4">
-      <button class="btn btn-gold w-full" id="btnVerifyOtp">تأكيد الدخول</button>
+    <h2>إنشاء حساب جديد</h2>
+    <p class="muted">سجل بياناتك للبدء باستخدام المنصة</p>
+    <input type="text" id="regName" placeholder="الاسم الكامل">
+    <input type="tel" id="regPhone" placeholder="رقم الجوال (05xxxxxxxx)" maxlength="10">
+    <input type="password" id="regPass" placeholder="كلمة السر">
+    <input type="password" id="regPass2" placeholder="تأكيد كلمة السر">
+    <button class="btn btn-gold w-full" id="btnRegister">إنشاء الحساب</button>
+    <div class="auth-switch">
+      لديك حساب بالفعل؟
+      <button class="btn-link" id="goToLogin">تسجيل الدخول</button>
     </div>
   </div>
 </div>
 
-<!-- نافذة إضافة عقار -->
+<!-- ===== نافذة تسجيل الدخول ===== -->
+<div id="modalLogin" class="modal hidden">
+  <div class="modal-box">
+    <button class="modal-close" data-close>&times;</button>
+    <h2>تسجيل الدخول</h2>
+    <p class="muted">ادخل برقم جوالك وكلمة السر</p>
+    <input type="tel" id="loginPhone" placeholder="رقم الجوال" maxlength="10">
+    <input type="password" id="loginPass" placeholder="كلمة السر">
+    <button class="btn btn-gold w-full" id="btnLogin">دخول</button>
+    <div class="auth-switch">
+      ما عندك حساب؟
+      <button class="btn-link" id="goToRegister">إنشاء حساب جديد</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== نافذة إضافة عقار ===== -->
 <div id="modalProperty" class="modal hidden">
   <div class="modal-box modal-lg">
     <button class="modal-close" data-close>&times;</button>
@@ -191,7 +208,9 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
         <option>دور</option><option>مكتب</option>
       </select>
       <input type="number" id="pPrice" placeholder="السعر (ريال)">
-      <input type="text" id="pCity" placeholder="المدينة">
+      <select id="pCity">
+        <option value="">اختر المدينة</option>
+      </select>
       <input type="text" id="pDistrict" placeholder="الحي">
       <input type="text" id="pDeed" placeholder="رقم الصك">
       <input type="text" id="pImage" placeholder="رابط صورة (URL)" class="full">
@@ -205,7 +224,7 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
   </div>
 </div>
 
-<!-- نافذة طلب عقار -->
+<!-- ===== نافذة طلب عقار ===== -->
 <div id="modalRequest" class="modal hidden">
   <div class="modal-box">
     <button class="modal-close" data-close>&times;</button>
@@ -217,7 +236,9 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
       <option>شقة</option><option>فيلا</option><option>أرض</option>
       <option>دور</option><option>مكتب</option>
     </select>
-    <input type="text" id="rCity" placeholder="المدينة">
+    <select id="rCity">
+      <option value="">اختر المدينة</option>
+    </select>
     <input type="text" id="rDistrict" placeholder="الحي المفضل">
     <input type="number" id="rBudget" placeholder="الميزانية (ريال)">
     <textarea id="rDesc" placeholder="تفاصيل إضافية"></textarea>
@@ -225,7 +246,7 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
   </div>
 </div>
 
-<!-- نافذة دخول المدير -->
+<!-- ===== نافذة دخول المدير ===== -->
 <div id="modalAdmin" class="modal hidden">
   <div class="modal-box">
     <button class="modal-close" data-close>&times;</button>
@@ -236,7 +257,7 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
   </div>
 </div>
 
-<!-- لوحة تحكم المدير -->
+<!-- ===== لوحة تحكم المدير ===== -->
 <div id="adminDashboard" class="modal hidden">
   <div class="modal-box modal-xl">
     <button class="modal-close" data-close>&times;</button>
@@ -279,6 +300,7 @@ var get = function(k, d){ try { return JSON.parse(localStorage.getItem(k)) || d;
 var set = function(k, v){ localStorage.setItem(k, JSON.stringify(v)); };
 
 var DB = {
+  users:      're_users',       // كل الحسابات المسجلة
   properties: 're_properties',
   requests:   're_requests',
   leads:      're_leads',
@@ -286,10 +308,15 @@ var DB = {
   session:    're_session'
 };
 var ADMIN = { user: 'Majed1000', pass: '14171000' };
-var DEFAULT_OTP = '1234';
 
-var currentTab = 'all';
-var currentUser = get(DB.session, null);
+/* ========== المدن السعودية ========== */
+var SAUDI_CITIES = [
+  'الرياض','جدة','مكة المكرمة','المدينة المنورة','الدمام','الخبر','الظهران','الأحساء','الطائف','تبوك',
+  'بريدة','عنيزة','حائل','نجران','أبها','خميس مشيط','جيزان','القطيف','ينبع','الجبيل',
+  'عرعر','سكاكا','القريات','الباحة','بيشة','وادي الدواسر','الدوادمي','الخرج','المجمعة','الزلفي',
+  'شقراء','القويعية','حوطة بني تميم','رابغ','رأس تنورة','بقيق','الخفجي','حفر الباطن','رفحاء','طريف',
+  'ضباء','الوجه','أملج','العلا','بدر','خيبر','الحناكية','المهد','الحائط','الشنان'
+];
 
 /* ========== إحصائيات الزوار ========== */
 (function(){
@@ -299,12 +326,20 @@ var currentUser = get(DB.session, null);
   set(DB.stats, s);
 })();
 
+/* ========== تعبئة المدن في القوائم ========== */
+function fillCities(){
+  var options = SAUDI_CITIES.map(function(c){ return '<option>' + c + '</option>'; }).join('');
+  ['#pCity','#rCity'].forEach(function(sel){
+    var el = $(sel);
+    if(el){ el.innerHTML = '<option value="">اختر المدينة</option>' + options; }
+  });
+}
+
 /* ========== مودالات ========== */
 function openModal(sel){ var m = $(sel); if(m) m.classList.remove('hidden'); }
 function closeModal(sel){ var m = $(sel); if(m) m.classList.add('hidden'); }
 function closeAllModals(){ $$('.modal').forEach(function(m){ m.classList.add('hidden'); }); }
 
-/* إغلاق المودالات */
 document.addEventListener('click', function(e){
   if(e.target.hasAttribute && e.target.hasAttribute('data-close')){
     var m = e.target.closest('.modal'); if(m) m.classList.add('hidden');
@@ -314,64 +349,112 @@ document.addEventListener('click', function(e){
   }
 });
 
-/* ========== التحقق من تسجيل الدخول ========== */
+/* ========== تسجيل حساب جديد ========== */
+var currentUser = get(DB.session, null);
+
+function showRegister(){
+  closeAllModals();
+  ['#regName','#regPhone','#regPass','#regPass2'].forEach(function(s){ $(s).value = ''; });
+  openModal('#modalRegister');
+}
+function showLogin(){
+  closeAllModals();
+  ['#loginPhone','#loginPass'].forEach(function(s){ $(s).value = ''; });
+  openModal('#modalLogin');
+}
+document.getElementById('goToLogin').addEventListener('click', showLogin);
+document.getElementById('goToRegister').addEventListener('click', showRegister);
+
+document.getElementById('btnRegister').addEventListener('click', function(){
+  var name = $('#regName').value.trim();
+  var phone = $('#regPhone').value.trim();
+  var pass = $('#regPass').value;
+  var pass2 = $('#regPass2').value;
+
+  if(name.length < 3) return alert('الرجاء إدخال الاسم الكامل (3 أحرف على الأقل)');
+  if(!/^05\d{8}$/.test(phone)) return alert('رقم الجوال يجب أن يبدأ بـ 05 ويكون 10 أرقام');
+  if(pass.length < 4) return alert('كلمة السر يجب أن تكون 4 أحرف على الأقل');
+  if(pass !== pass2) return alert('كلمتا السر غير متطابقتين');
+
+  var users = get(DB.users, []);
+  var exists = users.some(function(u){ return u.phone === phone; });
+  if(exists) return alert('هذا الرقم مسجل مسبقاً، سجل دخولك');
+
+  var newUser = { name: name, phone: phone, pass: pass, at: Date.now() };
+  users.push(newUser);
+  set(DB.users, users);
+
+  // حفظ الجلسة
+  currentUser = { name: name, phone: phone, at: Date.now() };
+  set(DB.session, currentUser);
+
+  // إضافته للـ Leads
+  var leads = get(DB.leads, []);
+  leads.push({ name: name, phone: phone, type: 'حساب جديد', date: new Date().toISOString() });
+  set(DB.leads, leads);
+
+  updateUserBadge();
+  closeAllModals();
+  alert('تم إنشاء الحساب بنجاح ✅\nأهلاً بك ' + name);
+});
+
+/* ========== تسجيل الدخول ========== */
+document.getElementById('btnLogin').addEventListener('click', function(){
+  var phone = $('#loginPhone').value.trim();
+  var pass = $('#loginPass').value;
+  if(!/^05\d{8}$/.test(phone)) return alert('رقم الجوال غير صحيح');
+  if(!pass) return alert('أدخل كلمة السر');
+
+  var users = get(DB.users, []);
+  var user = users.find(function(u){ return u.phone === phone && u.pass === pass; });
+
+  if(!user) return alert('رقم الجوال أو كلمة السر غير صحيحة');
+
+  currentUser = { name: user.name, phone: user.phone, at: Date.now() };
+  set(DB.session, currentUser);
+
+  updateUserBadge();
+  closeAllModals();
+  alert('أهلاً بعودتك ' + user.name + ' ✅');
+});
+
+/* ========== شارة المستخدم ========== */
+function updateUserBadge(){
+  var b = $('#userBadge');
+  if(currentUser){
+    b.textContent = '👤 ' + currentUser.name + ' (خروج)';
+    b.classList.remove('hidden');
+    b.onclick = function(){
+      if(confirm('تسجيل الخروج؟')){
+        localStorage.removeItem(DB.session);
+        currentUser = null;
+        updateUserBadge();
+      }
+    };
+  } else {
+    b.classList.add('hidden');
+    b.onclick = null;
+  }
+}
+
+/* ========== التحقق من الدخول ========== */
 function requireLogin(){
   if(currentUser) return true;
-  openModal('#modalLogin');
-  $('#loginStep1').classList.remove('hidden');
-  $('#loginStep2').classList.add('hidden');
+  showLogin();
   return false;
 }
 
-/* ========== زر "أضف عقارك" ========== */
+/* ========== أزرار رئيسية ========== */
 document.getElementById('btnAddProperty').addEventListener('click', function(){
-  console.log('ضغطت زر أضف عقارك');
   if(!requireLogin()) return;
   openModal('#modalProperty');
 });
-
-/* ========== زر "اطلب عقار" ========== */
 document.getElementById('btnAddRequest').addEventListener('click', function(){
   if(!requireLogin()) return;
   openModal('#modalRequest');
 });
 
-/* ========== تسجيل الدخول (OTP) ========== */
-document.getElementById('btnSendOtp').addEventListener('click', function(){
-  var n = $('#loginName').value.trim();
-  var p = $('#loginPhone').value.trim();
-  if(n.length < 3) return alert('الرجاء إدخال الاسم الكامل');
-  if(!/^05\d{8}$/.test(p)) return alert('رقم الجوال يجب أن يبدأ بـ 05 ويكون 10 أرقام');
-  $('#loginStep1').classList.add('hidden');
-  $('#loginStep2').classList.remove('hidden');
-});
-
-document.getElementById('btnVerifyOtp').addEventListener('click', function(){
-  var code = $('#otpInput').value.trim();
-  if(code !== DEFAULT_OTP) return alert('الكود غير صحيح');
-  var name = $('#loginName').value.trim();
-  var phone = $('#loginPhone').value.trim();
-  currentUser = { name: name, phone: phone, at: Date.now() };
-  set(DB.session, currentUser);
-  var leads = get(DB.leads, []);
-  leads.push({ name: name, phone: phone, type: 'تسجيل', date: new Date().toISOString() });
-  set(DB.leads, leads);
-  updateUserBadge();
-  closeAllModals();
-  alert('أهلاً بك ' + name + ' ✅\nالآن يمكنك إضافة عقارك');
-});
-
-function updateUserBadge(){
-  var b = $('#userBadge');
-  if(currentUser){
-    b.textContent = '👤 ' + currentUser.name;
-    b.classList.remove('hidden');
-  } else {
-    b.classList.add('hidden');
-  }
-}
-
-/* ========== نوع المعلن (مالك/مسوق) ========== */
+/* ========== نوع المعلن ========== */
 $$('input[name="role"]').forEach(function(r){
   r.addEventListener('change', function(){
     var bf = $('#brokerFields');
@@ -382,7 +465,7 @@ $$('input[name="role"]').forEach(function(r){
 
 /* ========== حفظ العقار ========== */
 document.getElementById('btnSaveProperty').addEventListener('click', function(){
-  if(!currentUser){ return alert('سجل دخولك أولاً'); }
+  if(!currentUser) return alert('سجل دخولك أولاً');
   var role = document.querySelector('input[name="role"]:checked').value;
   var data = {
     id: Date.now(),
@@ -390,7 +473,7 @@ document.getElementById('btnSaveProperty').addEventListener('click', function(){
     title: $('#pTitle').value.trim(),
     type: $('#pType').value,
     price: $('#pPrice').value,
-    city: $('#pCity').value.trim(),
+    city: $('#pCity').value,
     district: $('#pDistrict').value.trim(),
     deed: $('#pDeed').value.trim(),
     image: $('#pImage').value.trim() || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800',
@@ -428,12 +511,12 @@ document.getElementById('btnSaveProperty').addEventListener('click', function(){
 
 /* ========== حفظ طلب العقار ========== */
 document.getElementById('btnSaveRequest').addEventListener('click', function(){
-  if(!currentUser){ return alert('سجل دخولك أولاً'); }
+  if(!currentUser) return alert('سجل دخولك أولاً');
   var data = {
     id: Date.now(),
     title: $('#rTitle').value.trim(),
     type: $('#rType').value,
-    city: $('#rCity').value.trim(),
+    city: $('#rCity').value,
     district: $('#rDistrict').value.trim(),
     budget: $('#rBudget').value,
     desc: $('#rDesc').value.trim(),
@@ -484,9 +567,7 @@ function renderCards(){
              (i.title||'').toLowerCase().indexOf(q) > -1;
     });
   }
-  if(ft){
-    items = items.filter(function(i){ return i.type === ft; });
-  }
+  if(ft) items = items.filter(function(i){ return i.type === ft; });
 
   if(!items.length){
     grid.innerHTML = '';
@@ -525,7 +606,6 @@ function renderCards(){
   });
   grid.innerHTML = html;
 
-  /* ربط أزرار التواصل */
   grid.querySelectorAll('.card-btn').forEach(function(btn){
     btn.addEventListener('click', function(){
       alert('📞 ' + btn.dataset.name + '\n' + btn.dataset.phone);
@@ -582,7 +662,6 @@ document.getElementById('btnAdminLogin').addEventListener('click', function(){
   }
 });
 
-/* تبويبات لوحة المدير */
 $$('.admin-tab').forEach(function(t){
   t.addEventListener('click', function(){
     $$('.admin-tab').forEach(function(x){ x.classList.remove('active'); });
@@ -604,7 +683,6 @@ function renderAdmin(){
   $('#admLeads').textContent    = leads.length;
   $('#admOffers').textContent   = props.length;
 
-  /* أكثر الأحياء بحثاً */
   var top = Object.keys(s.districts || {}).map(function(k){ return [k, s.districts[k]]; });
   top.sort(function(a,b){ return b[1] - a[1]; });
   top = top.slice(0, 8);
@@ -612,7 +690,6 @@ function renderAdmin(){
     ? top.map(function(x){ return '<li><span>' + x[0] + '</span><strong>' + x[1] + ' بحث</strong></li>'; }).join('')
     : '<li>لا توجد بيانات بعد</li>';
 
-  /* قائمة العملاء */
   $('#leadsBody').innerHTML = leads.length
     ? leads.map(function(l){
         var d = new Date(l.date).toLocaleDateString('ar-SA');
@@ -620,7 +697,6 @@ function renderAdmin(){
       }).join('')
     : '<tr><td colspan="4" style="text-align:center;color:#6b7590">لا يوجد عملاء بعد</td></tr>';
 
-  /* إدارة العروض */
   $('#adminOffers').innerHTML = props.length
     ? props.map(function(p){
         return '<div class="admin-item">' +
@@ -632,7 +708,6 @@ function renderAdmin(){
       }).join('')
     : '<p class="muted">لا توجد عروض</p>';
 
-  /* إدارة الطلبات */
   $('#adminRequests').innerHTML = reqs.length
     ? reqs.map(function(r){
         return '<div class="admin-item">' +
@@ -644,7 +719,6 @@ function renderAdmin(){
       }).join('')
     : '<p class="muted">لا توجد طلبات</p>';
 
-  /* أزرار الحذف */
   $$('#adminOffers [data-del-prop]').forEach(function(b){
     b.addEventListener('click', function(){
       if(!confirm('متأكد من الحذف؟')) return;
@@ -665,11 +739,12 @@ function renderAdmin(){
   });
 }
 
-/* ========== التشغيل الأول ========== */
+/* ========== التشغيل ========== */
+fillCities();
 updateUserBadge();
 renderCards();
 updateStats();
-console.log('✅ المنصة جاهزة');
+console.log('✅ المنصة جاهزة — ' + SAUDI_CITIES.length + ' مدينة');
 </script>
 </body>
 </html>

@@ -56,7 +56,6 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
 .card-desc{color:var(--muted);font-size:.85rem;margin-bottom:12px;flex:1}
 .card-btn{background:var(--navy);color:#fff;border:none;padding:10px;border-radius:10px;cursor:pointer;font-family:inherit;font-weight:700;transition:.2s;font-size:.88rem}
 .card-btn:hover{background:var(--gold);color:var(--navy)}
-.card-area{display:inline-block;background:#e0f2fe;color:#075985;font-size:.72rem;padding:3px 8px;border-radius:10px;margin-inline-end:6px;font-weight:700}
 .card-commission{display:inline-block;background:#fef3c7;color:#92400e;font-size:.72rem;padding:3px 8px;border-radius:10px;margin-inline-start:6px;font-weight:700}
 .empty-state{text-align:center;padding:60px 20px;color:var(--muted)}
 .footer{background:var(--navy);color:#cbd5e1;padding:22px 0;margin-top:40px}
@@ -104,7 +103,6 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
 .mini-btn{border:none;padding:6px 12px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:.78rem;font-weight:700;transition:.2s}
 .mini-btn:hover{opacity:.85}
 .mini-delete{background:#dc2626;color:#fff}
-.mini-edit{background:var(--gold);color:var(--navy)}
 .districts-list{list-style:none;margin-top:10px}
 .districts-list li{padding:10px;background:#fafbfd;border-radius:8px;margin-bottom:6px;display:flex;justify-content:space-between;border-right:3px solid var(--gold)}
 
@@ -137,6 +135,17 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
 .check-row input[type="checkbox"]{width:20px;height:20px;accent-color:var(--gold);cursor:pointer;margin:0;flex-shrink:0}
 .agreement-row{background:#fff;padding:10px;border-radius:8px;font-size:.85rem;border:1px solid #fde68a;margin-top:8px}
 .agreement-row span{line-height:1.5}
+
+.user-wrapper{position:relative}
+.user-menu{position:absolute;top:calc(100% + 6px);left:0;background:#fff;border-radius:12px;box-shadow:0 8px 30px rgba(11,30,61,.25);min-width:210px;padding:8px;z-index:300;border:1px solid var(--border);animation:fadeUp .2s ease}
+.user-menu button{display:block;width:100%;text-align:right;background:transparent;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;font-family:inherit;font-weight:700;color:var(--navy);font-size:.9rem;transition:.2s}
+.user-menu button:hover{background:#f5f7fa}
+.user-menu .danger{color:#dc2626}
+.user-menu .danger:hover{background:#fef2f2}
+.forgot-link{text-align:center;margin-top:8px;padding-top:8px}
+.forgot-link button{background:transparent;border:none;color:var(--muted);cursor:pointer;font-family:inherit;font-size:.85rem;text-decoration:underline}
+.forgot-link button:hover{color:var(--gold)}
+.step-info{background:#eff6ff;color:#1e40af;padding:10px 12px;border-radius:8px;font-size:.85rem;margin-bottom:12px;border-right:3px solid #3b82f6;font-weight:700}
 
 @media(max-width:768px){
   .hero h1{font-size:1.5rem}
@@ -205,7 +214,7 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
   </div>
 </footer>
 
-<!-- تسجيل جديد -->
+<!-- ===== تسجيل جديد ===== -->
 <div id="modalRegister" class="modal hidden">
   <div class="modal-box">
     <button class="modal-close" data-close>&times;</button>
@@ -220,7 +229,7 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
   </div>
 </div>
 
-<!-- تسجيل دخول -->
+<!-- ===== تسجيل دخول ===== -->
 <div id="modalLogin" class="modal hidden">
   <div class="modal-box">
     <button class="modal-close" data-close>&times;</button>
@@ -230,10 +239,50 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
     <input type="password" id="loginPass" placeholder="كلمة السر">
     <button class="btn btn-gold w-full" id="btnLogin">دخول</button>
     <div class="auth-switch">ما عندك حساب؟ <button class="btn-link" id="goToRegister">إنشاء حساب جديد</button></div>
+    <div class="forgot-link"><button id="goToForgot">🔑 نسيت كلمة السر؟</button></div>
   </div>
 </div>
 
-<!-- إضافة عقار -->
+<!-- ===== نسيت كلمة السر ===== -->
+<div id="modalForgot" class="modal hidden">
+  <div class="modal-box">
+    <button class="modal-close" data-close>&times;</button>
+    <h2>استعادة كلمة السر</h2>
+    <div id="forgotStep1">
+      <p class="muted">أدخل رقم جوالك المسجل</p>
+      <input type="tel" id="forgotPhone" placeholder="رقم الجوال" maxlength="10">
+      <button class="btn btn-gold w-full" id="btnForgotNext1">التالي</button>
+    </div>
+    <div id="forgotStep2" class="hidden">
+      <div class="step-info">✓ تم العثور على الحساب</div>
+      <p class="muted">لتأكيد هويتك، أدخل اسمك الكامل المسجل</p>
+      <input type="text" id="forgotName" placeholder="الاسم الكامل">
+      <button class="btn btn-gold w-full" id="btnForgotNext2">تأكيد الهوية</button>
+    </div>
+    <div id="forgotStep3" class="hidden">
+      <div class="step-info">✓ تم التحقق بنجاح</div>
+      <p class="muted">أدخل كلمة السر الجديدة</p>
+      <input type="password" id="forgotNewPass" placeholder="كلمة السر الجديدة">
+      <input type="password" id="forgotNewPass2" placeholder="تأكيد كلمة السر">
+      <button class="btn btn-gold w-full" id="btnForgotReset">تعيين كلمة السر الجديدة</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== تعديل كلمة السر ===== -->
+<div id="modalChangePass" class="modal hidden">
+  <div class="modal-box">
+    <button class="modal-close" data-close>&times;</button>
+    <h2>🔐 تعديل كلمة السر</h2>
+    <p class="muted">أدخل كلمة السر الحالية والجديدة</p>
+    <input type="password" id="chgCurrent" placeholder="كلمة السر الحالية">
+    <input type="password" id="chgNew" placeholder="كلمة السر الجديدة">
+    <input type="password" id="chgNew2" placeholder="تأكيد كلمة السر الجديدة">
+    <button class="btn btn-gold w-full" id="btnChangePass">حفظ التعديل</button>
+  </div>
+</div>
+
+<!-- ===== إضافة عقار ===== -->
 <div id="modalProperty" class="modal hidden">
   <div class="modal-box modal-lg">
     <button class="modal-close" data-close>&times;</button>
@@ -315,7 +364,7 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
   </div>
 </div>
 
-<!-- طلب عقار -->
+<!-- ===== طلب عقار ===== -->
 <div id="modalRequest" class="modal hidden">
   <div class="modal-box">
     <button class="modal-close" data-close>&times;</button>
@@ -335,7 +384,7 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
   </div>
 </div>
 
-<!-- دخول المدير -->
+<!-- ===== دخول المدير ===== -->
 <div id="modalAdmin" class="modal hidden">
   <div class="modal-box">
     <button class="modal-close" data-close>&times;</button>
@@ -346,7 +395,7 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
   </div>
 </div>
 
-<!-- دخول المالك -->
+<!-- ===== دخول المالك ===== -->
 <div id="modalOwner" class="modal hidden">
   <div class="modal-box">
     <button class="modal-close" data-close>&times;</button>
@@ -357,7 +406,7 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
   </div>
 </div>
 
-<!-- لوحة المدير -->
+<!-- ===== لوحة المدير ===== -->
 <div id="adminDashboard" class="modal hidden">
   <div class="modal-box modal-xl">
     <button class="modal-close" data-close>&times;</button>
@@ -394,7 +443,7 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
   </div>
 </div>
 
-<!-- لوحة المالك -->
+<!-- ===== لوحة المالك ===== -->
 <div id="ownerDashboard" class="modal hidden">
   <div class="modal-box modal-xl">
     <button class="modal-close" data-close>&times;</button>
@@ -405,9 +454,8 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
       <button class="owner-tab" data-otab="users">👥 المستخدمون</button>
       <button class="owner-tab" data-otab="stats">📊 ملخص</button>
     </div>
-
     <div id="otab-offers" class="otab-panel">
-      <p class="muted" style="margin-bottom:10px">جميع إعلانات العقارات مع الكود والمعلن</p>
+      <p class="muted" style="margin-bottom:10px">جميع إعلانات العقارات</p>
       <div class="table-wrap">
         <table class="admin-table">
           <thead>
@@ -421,9 +469,8 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
         </table>
       </div>
     </div>
-
     <div id="otab-requests" class="otab-panel hidden">
-      <p class="muted" style="margin-bottom:10px">جميع طلبات العقار من المشترين</p>
+      <p class="muted" style="margin-bottom:10px">جميع طلبات العقار</p>
       <div class="table-wrap">
         <table class="admin-table">
           <thead>
@@ -436,19 +483,15 @@ body{font-family:'Tajawal',system-ui,sans-serif;background:var(--bg);color:var(-
         </table>
       </div>
     </div>
-
     <div id="otab-users" class="otab-panel hidden">
       <p class="muted" style="margin-bottom:10px">جميع المستخدمين المسجلين</p>
       <div class="table-wrap">
         <table class="admin-table">
-          <thead>
-            <tr><th>#</th><th>الاسم</th><th>الجوال</th><th>تاريخ التسجيل</th></tr>
-          </thead>
+          <thead><tr><th>#</th><th>الاسم</th><th>الجوال</th><th>تاريخ التسجيل</th></tr></thead>
           <tbody id="ownerUsersBody"></tbody>
         </table>
       </div>
     </div>
-
     <div id="otab-stats" class="otab-panel hidden">
       <div class="admin-stats">
         <div class="stat-card"><h3 id="ownOffers">0</h3><p>إجمالي العروض</p></div>
@@ -627,23 +670,136 @@ document.getElementById('btnLogin').addEventListener('click', function(){
   alert('أهلاً بعودتك ' + user.name + ' ✅');
 });
 
+/* ========== نسيت كلمة السر ========== */
+var forgotPhoneCache = '';
+function showForgot(){
+  closeAllModals();
+  ['#forgotPhone','#forgotName','#forgotNewPass','#forgotNewPass2'].forEach(function(s){ $(s).value = ''; });
+  $('#forgotStep1').classList.remove('hidden');
+  $('#forgotStep2').classList.add('hidden');
+  $('#forgotStep3').classList.add('hidden');
+  forgotPhoneCache = '';
+  openModal('#modalForgot');
+}
+document.getElementById('goToForgot').addEventListener('click', showForgot);
+
+document.getElementById('btnForgotNext1').addEventListener('click', function(){
+  var phone = $('#forgotPhone').value.trim();
+  if(!/^05\d{8}$/.test(phone)) return alert('رقم الجوال غير صحيح');
+  var users = get(DB.users, []);
+  var user = users.find(function(u){ return u.phone === phone; });
+  if(!user) return alert('لا يوجد حساب مسجل بهذا الرقم');
+  forgotPhoneCache = phone;
+  $('#forgotStep1').classList.add('hidden');
+  $('#forgotStep2').classList.remove('hidden');
+});
+
+document.getElementById('btnForgotNext2').addEventListener('click', function(){
+  var name = $('#forgotName').value.trim();
+  var users = get(DB.users, []);
+  var user = users.find(function(u){ return u.phone === forgotPhoneCache; });
+  if(!user) return alert('حدث خطأ، حاول مرة أخرى');
+  if(user.name.trim() !== name) return alert('❌ الاسم غير مطابق للحساب المسجل');
+  $('#forgotStep2').classList.add('hidden');
+  $('#forgotStep3').classList.remove('hidden');
+});
+
+document.getElementById('btnForgotReset').addEventListener('click', function(){
+  var p1 = $('#forgotNewPass').value;
+  var p2 = $('#forgotNewPass2').value;
+  if(p1.length < 4) return alert('كلمة السر 4 أحرف على الأقل');
+  if(p1 !== p2) return alert('كلمتا السر غير متطابقتين');
+
+  var users = get(DB.users, []);
+  var idx = users.findIndex(function(u){ return u.phone === forgotPhoneCache; });
+  if(idx === -1) return alert('حدث خطأ، حاول مرة أخرى');
+
+  users[idx].pass = p1;
+  set(DB.users, users);
+
+  if(currentUser && currentUser.phone === forgotPhoneCache){
+    localStorage.removeItem(DB.session);
+    currentUser = null;
+    updateUserBadge();
+  }
+
+  closeAllModals();
+  alert('✅ تم تغيير كلمة السر بنجاح\nسجل دخولك بكلمة السر الجديدة');
+  forgotPhoneCache = '';
+});
+
+/* ========== تعديل كلمة السر ========== */
+document.getElementById('btnChangePass').addEventListener('click', function(){
+  if(!currentUser) return alert('سجل دخولك أولاً');
+  var cur = $('#chgCurrent').value;
+  var n1 = $('#chgNew').value;
+  var n2 = $('#chgNew2').value;
+
+  if(!cur) return alert('أدخل كلمة السر الحالية');
+  if(n1.length < 4) return alert('كلمة السر الجديدة 4 أحرف على الأقل');
+  if(n1 !== n2) return alert('كلمتا السر الجديدتان غير متطابقتين');
+
+  var users = get(DB.users, []);
+  var idx = users.findIndex(function(u){ return u.phone === currentUser.phone; });
+  if(idx === -1) return alert('حدث خطأ');
+  if(users[idx].pass !== cur) return alert('❌ كلمة السر الحالية غير صحيحة');
+
+  users[idx].pass = n1;
+  set(DB.users, users);
+
+  closeAllModals();
+  alert('✅ تم تعديل كلمة السر بنجاح');
+});
+
+/* ========== شارة المستخدم + القائمة ========== */
 function updateUserBadge(){
   var b = $('#userBadge');
+  var oldMenu = document.querySelector('.user-menu');
+  if(oldMenu) oldMenu.remove();
+
   if(currentUser){
-    b.textContent = '👤 ' + currentUser.name + ' (خروج)';
+    b.textContent = '👤 ' + currentUser.name + ' ▾';
     b.classList.remove('hidden');
-    b.onclick = function(){
-      if(confirm('تسجيل الخروج؟')){
-        localStorage.removeItem(DB.session);
-        currentUser = null;
-        updateUserBadge();
-      }
+    b.parentElement.classList.add('user-wrapper');
+
+    b.onclick = function(e){
+      e.stopPropagation();
+      var existing = document.querySelector('.user-menu');
+      if(existing){ existing.remove(); return; }
+
+      var menu = document.createElement('div');
+      menu.className = 'user-menu';
+      menu.innerHTML =
+        '<button id="menuChangePass">🔐 تعديل كلمة السر</button>' +
+        '<button id="menuLogout" class="danger">🚪 تسجيل الخروج</button>';
+
+      menu.addEventListener('click', function(ev){ ev.stopPropagation(); });
+      b.parentElement.appendChild(menu);
+
+      document.getElementById('menuChangePass').addEventListener('click', function(){
+        menu.remove();
+        ['#chgCurrent','#chgNew','#chgNew2'].forEach(function(s){ $(s).value = ''; });
+        openModal('#modalChangePass');
+      });
+      document.getElementById('menuLogout').addEventListener('click', function(){
+        menu.remove();
+        if(confirm('تسجيل الخروج؟')){
+          localStorage.removeItem(DB.session);
+          currentUser = null;
+          updateUserBadge();
+        }
+      });
     };
   } else {
     b.classList.add('hidden');
     b.onclick = null;
   }
 }
+
+document.addEventListener('click', function(){
+  var m = document.querySelector('.user-menu');
+  if(m) m.remove();
+});
 
 function requireLogin(){
   if(currentUser) return true;
